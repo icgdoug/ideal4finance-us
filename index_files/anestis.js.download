@@ -1,0 +1,46 @@
+$(document).ready(function () {
+    cookieValue = readCookie('ideal');
+
+    if (cookieValue) {
+        $('#roleSelect').val(cookieValue);
+        $('#roleSelectMobile').val(cookieValue);
+    }
+
+    $('.roleSelect').click(function () {
+        role = $(this).data('role');
+
+        setIdealCookie(role, true);
+    });
+
+    if (cookieValue == 'consumer') {
+        hideBusinessLinks();
+    } else {
+        hideConsumerLinks();
+
+    }
+
+    try {
+        if (!cookieValue) {
+            consumerPage();
+            setCookieConsumer();
+        }
+    } catch (ex) {
+        // console.log('Not in consumer page.');
+    }
+});
+
+function hideBusinessLinks() {
+    $('.businessLink').hide();
+    $('.consumerLink').show();
+    $('.consumerPageLink').show();
+    $('.consumerPageLink').text('Homepage');
+    $('#logoLink').attr('href', '/');
+}
+
+function hideConsumerLinks() {
+    $('.consumerLink').hide();
+    $('.businessLink').show();
+    $('.consumerPageLink').hide();
+    $('#logoLink').attr('href', '/');
+}
+// todo: review purpose and refactor / encapsulate
